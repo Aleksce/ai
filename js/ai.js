@@ -14,19 +14,21 @@ const AI = {
   },
 
   async _callGemini(messages, systemPrompt) {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${CONFIG.GEMINI_MODEL}:generateContent?key=${CONFIG.GEMINI_API_KEY}`;
+    const apiKey = (CONFIG.GEMINI_API_KEY || '').trim();
+    const model = CONFIG.GEMINI_MODEL || 'gemini-2.0-flash';
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
-    // Конвертируем историю в формат Gemini
+    // Преобразуем историю диалога под формат Gemini API
     const contents = messages.map(m => ({
       role: m.role === 'assistant' ? 'model' : 'user',
       parts: [{ text: m.content }],
     }));
 
     const body = {
-      system_instruction: {
+      systemInstruction: {
         parts: [{ text: systemPrompt }],
       },
-      contents,
+      contents: contents,
       generationConfig: {
         temperature: 0.75,
         maxOutputTokens: 300,
@@ -35,17 +37,32 @@ const AI = {
 
     const res = await fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(body),
     });
 
     if (!res.ok) {
-      const err = await res.text();
-      throw new Error(`Gemini API ошибка ${res.status}: ${err}`);
+      const errText = await res.text();
+      let errorMsg = `Ошибка ${res.status}`;
+      try {
+        const errJson = JSON.parse(errText);
+        errorMsg = errJson.error?.message || errText;
+      } catch (e) {
+        errorMsg = errText;
+      }
+      throw new Error(`Gemini API: ${errorMsg}`);
     }
 
     const data = await res.json();
-    return data.candidates?.[0]?.content?.parts?.[0]?.text || '...';
+    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    if (!reply) {
+      throw new Error('Модель вернула пустой ответ. Возможно, сработали фильтры безопасности.');
+    }
+
+    return reply;
   },
 
   async _callOllama(messages, systemPrompt) {
