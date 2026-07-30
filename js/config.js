@@ -5,25 +5,28 @@
  *
  * Выбери провайдера AI и вставь ключ ниже.
  *
- * ВАРИАНТ 1 — Gemini (бесплатно, онлайн):
- *   Получи ключ на: https://aistudio.google.com/app/apikey
- *   Установи: AI_PROVIDER = 'gemini'
- *              GEMINI_API_KEY = 'твой_ключ_здесь'
+ * ВАРИАНТ 1 — Groq (бесплатно, быстро, без блокировок Google):
+ *    Получи ключ на: https://console.groq.com/keys
+ *    Установи: AI_PROVIDER = 'groq'
+ *              GROQ_API_KEY = 'gsk_...'
  *
- * ВАРИАНТ 2 — Ollama (локально, бесплатно):
- *   Установи Ollama: https://ollama.com
- *   Запусти: ollama run llama3
- *   Установи: AI_PROVIDER = 'ollama'
- *              OLLAMA_MODEL = 'llama3' (или другую модель)
- *   Важно: при открытии через Telegram нужен ngrok/туннель к localhost:11434
+ * ВАРИАНТ 2 — Gemini (бесплатно, онлайн):
+ *    Установи: AI_PROVIDER = 'gemini'
+ *
+ * ВАРИАНТ 3 — Ollama (локально, бесплатно):
+ *    Установи: AI_PROVIDER = 'ollama'
  */
 
 const CONFIG = {
-  // === ВЫБЕРИ ПРОВАЙДЕРА: 'gemini' или 'ollama' ===
-  AI_PROVIDER: 'gemini',
+  // === ВЫБЕРИ ПРОВАЙДЕРА: 'groq', 'gemini' или 'ollama' ===
+  AI_PROVIDER: 'groq',
 
-// === GEMINI ===
-  GEMINI_API_KEY: 'AQ.Ab8RN6LUKQKKoha79f0xvUr8CeAV1AckrXF-citxJXxUHtDqDQ',
+  // === GROQ (Быстро и бесплатно) ===
+  GROQ_API_KEY: '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',
+  GROQ_MODEL: 'llama-3.3-70b-versatile',
+
+  // === GEMINI ===
+  GEMINI_API_KEY: '',
   GEMINI_MODEL: 'gemini-3.1-flash-lite',
 
   // === OLLAMA (локально) ===
