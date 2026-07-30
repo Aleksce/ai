@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0d0d12" />
+  <title>Tinder Trainer — Nastya Edition</title>
+
+  <!-- Telegram Web App SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ============================================
+       SCREEN: ГЛАВНОЕ МЕНЮ
+       ============================================ -->
+  <div id="screen-menu" class="screen">
+
+    <div class="menu-header">
+      <div class="logo-icon">🔥</div>
+      <div class="logo-title">Tinder Trainer</div>
+      <div class="logo-sub">Nastya Edition</div>
+    </div>
+
+    <!-- Превью Насти -->
+    <div class="nastya-preview">
+      <div class="nastya-avatar">Н</div>
+      <div class="nastya-info">
+        <div class="nastya-name">Настя, 22</div>
+        <div class="nastya-status">онлайн • Питер</div>
+      </div>
+      <div class="menu-msg-preview">
+        <div class="msg-preview-bubble">настя: привет)</div>
+      </div>
+    </div>
+
+    <!-- Секция уровней -->
+    <div class="section-label">
+      <span>Выбери уровень</span>
+      <span id="levels-count" style="color: var(--red)">05 / 05</span>
+    </div>
+
+    <div id="levels-grid" class="levels-grid">
+      <!-- Заполняется через JS -->
+    </div>
+
+    <!-- Статистика -->
+    <div class="stats-bar">
+      <div class="stat-chip">
+        <div class="stat-num good" id="stat-good">0</div>
+        <div class="stat-label">Идеальных</div>
+      </div>
+      <div class="stat-chip">
+        <div class="stat-num bad" id="stat-bad">0</div>
+        <div class="stat-label">Косяков</div>
+      </div>
+    </div>
+
+    <button class="export-btn" onclick="Storage.exportAll()">
+      ↓ Экспорт датасета (JSON)
+    </button>
+
+  </div><!-- /screen-menu -->
+
+
+  <!-- ============================================
+       SCREEN: ПРОФИЛЬ НАСТИ (перед стартом)
+       ============================================ -->
+  <div id="screen-profile" class="screen hidden">
+
+    <div class="profile-scan-bar">
+      <span>PROFILE SCAN / 00<span id="profile-level-num">1</span></span>
+      <span class="scan-badge">TRAINING SESSION</span>
+    </div>
+
+    <div class="profile-photo">
+      <div class="profile-big-letter">Н</div>
+      <div class="profile-scan-overlay"></div>
+    </div>
+
+    <div class="profile-info">
+      <div class="profile-name">Настя, <span>22</span></div>
+
+      <div class="profile-detail">
+        <span class="icon">📍</span>
+        <span>Санкт-Петербург, Василеостровский</span>
+      </div>
+
+      <div class="profile-detail" style="margin-top: 4px">
+        <span class="icon">☕</span>
+        <span>баристa в кофейне</span>
+      </div>
+
+      <div class="profile-bio">
+        люблю кофе и тихие утра. странных парней не боюсь, но тороплюсь редко)
+      </div>
+
+      <div class="profile-level-badge">
+        🎮 <span id="profile-level-name">Знакомство</span>
+      </div>
+
+      <div class="profile-hp" style="margin-top: 14px">
+        <span class="hp-label">HP</span>
+        <div class="hp-hearts">
+          <span class="hp-heart">♥</span>
+          <span class="hp-heart">♥</span>
+          <span class="hp-heart">♥</span>
+          <span class="hp-heart">♥</span>
+          <span class="hp-heart">♥</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-actions">
+      <button class="btn-secondary" onclick="App.goMenu()">✕</button>
+      <button class="btn-primary" onclick="App.startGame()">✓ НАЧАТЬ ДИАЛОГ</button>
+    </div>
+
+  </div><!-- /screen-profile -->
+
+
+  <!-- ============================================
+       SCREEN: ИГРОВОЙ ЭКРАН
+       ============================================ -->
+  <div id="screen-game" class="screen hidden">
+
+    <!-- Шапка -->
+    <div class="game-header">
+      <div class="game-avatar">Н</div>
+      <div class="game-meta">
+        <div class="game-level-name" id="game-level-name">LEVEL 1 — ЗНАКОМСТВО</div>
+        <div class="game-name">Настя ✦</div>
+      </div>
+      <div class="hp-display" id="hp-display">
+        <span class="heart alive">♥</span>
+        <span class="heart alive">♥</span>
+        <span class="heart alive">♥</span>
+        <span class="heart alive">♥</span>
+        <span class="heart alive">♥</span>
+      </div>
+    </div>
+
+    <!-- Прогресс-бар -->
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+      <span class="progress-label">
+        <span id="progress-current">0</span> / <span id="progress-target">5</span>
+      </span>
+    </div>
+
+    <!-- Быстрые провокации -->
+    <div class="quick-triggers">
+      <button class="trigger-btn" onclick="App.sendQuick('поехали ко мне?')">🔥 Поехали ко мне</button>
+      <button class="trigger-btn" onclick="App.sendQuick('дай ватсап / номер')">📱 Дай номер</button>
+      <button class="trigger-btn" onclick="App.sendQuick('пошли в кино сегодня?')">🎬 Зову в кино</button>
+      <button class="trigger-btn" onclick="App.sendQuick('сколько стоит мастер-класс?')">💰 Сколько стоит?</button>
+      <button class="trigger-btn" onclick="App.sendQuick('ты точно не бот?')">🤖 Ты бот?</button>
+      <button class="trigger-btn" onclick="App.sendQuick('давай познакомимся лично')">🤝 Познакомиться</button>
+    </div>
+
+    <!-- Описание уровня (скрыто после первого сообщения) -->
+    <div id="game-level-desc-wrap" style="padding: 6px 12px 0; flex-shrink: 0;">
+      <div id="game-level-desc"
+        style="font-size: 11px; color: var(--text-dim); letter-spacing: 0.3px; line-height: 1.4; padding: 6px 10px; background: var(--dark3); border-radius: 8px; border-left: 2px solid var(--red);">
+      </div>
+    </div>
+
+    <!-- Сообщения -->
+    <div class="chat-messages" id="chat-messages"></div>
+
+    <!-- Индикатор набора -->
+    <div id="typing-indicator" class="hidden">
+      <div class="typing-dots">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+      <span class="typing-text">Настя печатает...</span>
+    </div>
+
+    <!-- Поле ввода -->
+    <div class="input-area">
+      <input
+        type="text"
+        id="user-input"
+        placeholder="Напиши Насте..."
+        autocomplete="off"
+        autocorrect="off"
+        spellcheck="false"
+      />
+      <button id="btn-send" onclick="App.sendMessage()">➤</button>
+    </div>
+
+  </div><!-- /screen-game -->
+
+
+  <!-- ============================================
+       SCREEN: GAME OVER
+       ============================================ -->
+  <div id="screen-gameover" class="screen hidden">
+
+    <div class="go-icon">✕</div>
+    <div class="go-title">GAME OVER</div>
+    <div class="go-sub">Настя слила персонажа</div>
+
+    <div class="go-level" id="go-level-name">LEVEL 1 — ЗНАКОМСТВО</div>
+
+    <div class="go-last-msg" id="go-last-msg">
+      последний косяк записан в датасет
+    </div>
+
+    <div class="go-actions">
+      <button class="btn-primary" onclick="App.restartLevel()">
+        ↺ ПОПРОБОВАТЬ СНОВА
+      </button>
+      <button class="btn-outline" onclick="App.goMenu()">
+        ← В МЕНЮ
+      </button>
+    </div>
+
+  </div><!-- /screen-gameover -->
+
+
+  <!-- ============================================
+       SCREEN: LEVEL COMPLETE
+       ============================================ -->
+  <div id="screen-levelcomplete" class="screen hidden">
+
+    <div class="lc-scan-label">TRAINING SESSION COMPLETE</div>
+    <div class="lc-icon">✓</div>
+    <div class="lc-title">УРОВЕНЬ ПРОЙДЕН</div>
+    <div class="lc-level" id="lc-level-name">LEVEL 1 — ЗНАКОМСТВО</div>
+
+    <div class="lc-stats">
+      <div class="lc-stat">
+        <div class="lc-stat-num yellow" id="lc-replies">0</div>
+        <div class="lc-stat-label">Реплик</div>
+      </div>
+      <div class="lc-stat">
+        <div class="lc-stat-num green" id="lc-good">0</div>
+        <div class="lc-stat-label">Идеальных</div>
+      </div>
+      <div class="lc-stat">
+        <div class="lc-stat-num red" id="lc-bad">0</div>
+        <div class="lc-stat-label">Ошибок</div>
+      </div>
+      <div class="lc-stat">
+        <div class="lc-stat-num cyan" id="lc-hp">5</div>
+        <div class="lc-stat-label">HP осталось</div>
+      </div>
+    </div>
+
+    <div class="lc-actions">
+      <button id="btn-next-level" class="btn-cyan hidden">
+        СЛЕДУЮЩИЙ УРОВЕНЬ →
+      </button>
+      <button class="btn-outline" onclick="App.goMenu()">
+        ← В МЕНЮ
+      </button>
+    </div>
+
+  </div><!-- /screen-levelcomplete -->
+
+
+  <!-- Toast уведомление -->
+  <div class="rating-toast" id="rating-toast"></div>
+
+</div><!-- /app -->
+
+<!-- Scripts -->
+<script src="js/config.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/prompts.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/game.js"></script>
+<script src="js/app.js"></script>
+
+<!-- Progress bar updater -->
+<script>
+  // Патч Game.sendUserMessage для обновления прогресс-бара
+  const _origInit = Game.init.bind(Game);
+  Game.init = function(levelId) {
+    _origInit(levelId);
+    // Скрыть описание после первого сообщения
+    document.getElementById('game-level-desc-wrap').style.display = '';
+  };
+
+  // Обновлять прогресс-бар при изменении счётчика
+  const progressObserver = new MutationObserver(() => {
+    const cur = parseInt(document.getElementById('progress-current')?.textContent || '0');
+    const tgt = parseInt(document.getElementById('progress-target')?.textContent || '5');
+    const fill = document.getElementById('progress-fill');
+    if (fill && tgt > 0) {
+      fill.style.width = Math.min(100, (cur / tgt) * 100) + '%';
+    }
+    // Скрыть описание после первого ответа
+    if (cur >= 1) {
+      const desc = document.getElementById('game-level-desc-wrap');
+      if (desc) desc.style.display = 'none';
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const cur = document.getElementById('progress-current');
+    if (cur) progressObserver.observe(cur, { childList: true, characterData: true, subtree: true });
+  });
+</script>
+
+</body>
+</html>
