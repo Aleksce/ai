@@ -22,9 +22,9 @@ const CONFIG = {
   // === ВЫБЕРИ ПРОВАЙДЕРА: 'gemini' или 'ollama' ===
   AI_PROVIDER: 'gemini',
 
-  // === GEMINI ===
+// === GEMINI ===
   GEMINI_API_KEY: 'AQ.Ab8RN6LUKQKKoha79f0xvUr8CeAV1AckrXF-citxJXxUHtDqDQ',
-  GEMINI_MODEL: 'gemini-2.0-flash',
+  GEMINI_MODEL: 'gemini-3.1-flash-lite',
 
   // === OLLAMA (локально) ===
   OLLAMA_BASE_URL: 'http://localhost:11434',
