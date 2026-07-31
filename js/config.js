@@ -1,18 +1,15 @@
 /**
- * TINDER TRAINER — Конфигурация приложения и уровней
+ * TINDER TRAINER — Конфигурация
  */
 
-const CONFIG = {
-  // Настройки API Groq
+window.CONFIG = {
   API_URL: 'https://api.groq.com/openai/v1/chat/completions',
   API_KEY: 'gsk_...', // Твой ключ Groq
-  MODEL: 'llama-3.3-70b-versatile', // Модель Llama 3.3 70B
-
-  // Настройки игры по умолчанию
+  MODEL: 'llama-3.3-70b-versatile',
   MAX_HP: 5
 };
 
-const LEVELS = [
+window.LEVELS = [
   {
     id: 1,
     name: 'Знакомство',
