@@ -1,80 +1,49 @@
 /**
- * =====================================================
- * TINDER TRAINER: NASTYA EDITION — Конфигурация API
- * =====================================================
- *
- * Выбери провайдера AI и вставь ключ ниже.
- *
- * ВАРИАНТ 1 — Groq (бесплатно, быстро, без блокировок Google):
- *    Получи ключ на: https://console.groq.com/keys
- *    Установи: AI_PROVIDER = 'groq'
- *              GROQ_API_KEY = 'gsk_...'
- *
- * ВАРИАНТ 2 — Gemini (бесплатно, онлайн):
- *    Установи: AI_PROVIDER = 'gemini'
- *
- * ВАРИАНТ 3 — Ollama (локально, бесплатно):
- *    Установи: AI_PROVIDER = 'ollama'
+ * TINDER TRAINER — Настройки приложения
  */
 
 const CONFIG = {
-  // === ВЫБЕРИ ПРОВАЙДЕРА: 'groq', 'gemini' или 'ollama' ===
-  AI_PROVIDER: 'groq',
+  // Провайдер и модель Groq
+  API_URL: 'https://api.groq.com/openai/v1/chat/completions',
+  API_KEY: 'ТВОЙ_GROQ_API_KEY_ЗДЕСЬ', // Вставь сюда свой API ключ
+  MODEL: 'llama-3.3-70b-versatile',
 
-  // === GROQ (Быстро и бесплатно) ===
-  GROQ_API_KEY: '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',
-  GROQ_MODEL: 'llama-3.3-70b-versatile',
-
-  // === GEMINI ===
-  GEMINI_API_KEY: '',
-  GEMINI_MODEL: 'gemini-3.1-flash-lite',
-
-  // === OLLAMA (локально) ===
-  OLLAMA_BASE_URL: 'http://localhost:11434',
-  OLLAMA_MODEL: 'llama3',
-
-  // === ИГРОВЫЕ НАСТРОЙКИ ===
-  MAX_HP: 5,
+  // Список уровней тренажера
   LEVELS: [
     {
       id: 1,
       name: 'Знакомство',
-      subtitle: 'Первое впечатление',
-      description: 'Задача: продержаться 5 реплик, не сливая личную информацию, и расположить к себе.',
-      targetReplies: 5,
-      locked: false,
+      desc: 'Завяжи разговор, узнай базовую инфу (имя, возраст, работа, откуда родом).',
+      targetReplies: 8,
+      hp: 5
     },
     {
       id: 2,
-      name: 'Границы',
-      subtitle: 'Проверка на доступность',
-      description: 'Админ начнёт давить: просить номер, ватсап, звать домой. Настя должна устоять.',
-      targetReplies: 6,
-      locked: false,
+      name: 'Проверка границ',
+      desc: 'Мужчина торопит события или просит номер. Удерживай границы с юмором.',
+      targetReplies: 10,
+      hp: 5
     },
     {
       id: 3,
-      name: 'Встреча',
-      subtitle: 'Вывод на встречу',
-      description: 'Цель: отвергнуть банальные предложения и мягко перевести на МК в Вавилов Лофте.',
-      targetReplies: 7,
-      locked: false,
+      name: 'Вывод на встречу',
+      desc: 'Отсей банальные варианты (кино/кафе) и направь его на МК в Вавилов Лофт.',
+      targetReplies: 20, // Увеличено, чтобы успеть обсудить МК
+      hp: 5
     },
     {
       id: 4,
-      name: 'Хардкор',
-      subtitle: 'Токсичный клиент',
-      description: 'Максимально трудный собеседник с подвохами, обвинениями и провокациями.',
-      targetReplies: 8,
-      locked: false,
+      name: 'Провокатор',
+      desc: 'Собеседник подкалывает или дерзит. Держи лицо и контролируй диалог.',
+      targetReplies: 12,
+      hp: 5
     },
     {
       id: 5,
       name: 'Реальное общение',
-      subtitle: 'Свободный режим',
-      description: 'Без ограничений и сценария. Полноценный живой диалог. Цель та же — встреча.',
-      targetReplies: 12,
-      locked: false,
-    },
-  ],
+      desc: 'Полноценный длинный диалог от первого "привет" до согласия на МК.',
+      targetReplies: 30, // Увеличено до 30 реплик!
+      hp: 5
+    }
+  ]
 };
