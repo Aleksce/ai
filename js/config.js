@@ -2,14 +2,14 @@
  * TINDER TRAINER — Конфигурация приложения
  */
 
-window.CONFIG = {
+const CONFIG = {
   API_URL: 'https://api.groq.com/openai/v1/chat/completions',
   API_KEY: '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',
   MODEL: 'llama-3.3-70b-versatile',
   MAX_HP: 5,
 };
 
-window.LEVELS = [
+const LEVELS = [
   {
     id: 1,
     name: 'Базовый флирт',
@@ -42,11 +42,18 @@ window.LEVELS = [
     id: 5,
     name: 'Реальное общение',
     desc: 'Случайный стиль. Полноценная проверка от знакомства до Вавилов Лофта.',
-    targetReplies: 30, // Увеличено до 30 сообщений
+    targetReplies: 30, // Подняли до 30 реплик
     hp: 5,
   },
 ];
 
-// Для совместимости, если где-то используется const
-const CONFIG = window.CONFIG;
-const LEVELS = window.LEVELS;
+// Прописываем глобально в window, чтобы ui.js точно увидел LEVELS
+if (typeof window !== 'undefined') {
+  window.CONFIG = CONFIG;
+  window.LEVELS = LEVELS;
+}
+
+// Прописываем export, если проект собран на модулях
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { CONFIG, LEVELS };
+}
