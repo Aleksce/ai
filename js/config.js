@@ -9,7 +9,7 @@ const CONFIG = {
   MODEL: 'llama-3.3-70b-versatile', // Модель Llama 3.3 70B
 
   // Настройки игры по умолчанию
-  MAX_HP: 5,
+  MAX_HP: 5
 };
 
 const LEVELS = [
@@ -45,7 +45,7 @@ const LEVELS = [
     id: 5,
     name: 'Реальное общение',
     desc: 'Полноценный диалог: квалификация -> флирт -> поход в Вавилов Лофт.',
-    targetReplies: 30, // Увеличено, чтобы диалог не обрывался на самом интересном!
+    targetReplies: 30,
     hp: 5
   }
 ];
