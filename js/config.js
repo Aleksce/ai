@@ -3,6 +3,7 @@
  */
 
 const CONFIG = {
+  PROVIDER: 'groq', // <-- ДОБАВИЛИ ЭТУ СТРОЧКУ, ЧТОБЫ УБРАТЬ ОШИБКУ
   API_URL: 'https://api.groq.com/openai/v1/chat/completions',
   API_KEY: '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',
   MODEL: 'llama-3.3-70b-versatile',
@@ -46,13 +47,12 @@ const CONFIG = {
       name: 'Реальное общение',
       desc: 'Случайный стиль. Полноценная проверка от знакомства до Вавилов Лофта.',
       subtitle: 'Знакомство -> МК в Вавилов Лофт',
-      targetReplies: 30, // Подняли лимит, чтобы Настя успевала вывести на МК
+      targetReplies: 30,
       hp: 5,
     },
   ]
 };
 
-// Регистрируем в window для доступа из других файлов
 if (typeof window !== 'undefined') {
   window.CONFIG = CONFIG;
   window.LEVELS = CONFIG.LEVELS;
