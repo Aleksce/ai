@@ -2,7 +2,7 @@
  * TINDER TRAINER — Конфигурация приложения
  */
 
-const CONFIG = {
+window.CONFIG = {
   AI_PROVIDER: 'groq',
   GROQ_API_KEY: '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',
   GROQ_MODEL: 'llama-3.3-70b-versatile',
@@ -52,7 +52,5 @@ const CONFIG = {
   ]
 };
 
-if (typeof window !== 'undefined') {
-  window.CONFIG = CONFIG;
-  window.LEVELS = CONFIG.LEVELS;
-}
+var CONFIG = window.CONFIG;
+var LEVELS = window.CONFIG.LEVELS;
