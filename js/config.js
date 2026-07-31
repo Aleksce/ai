@@ -3,10 +3,9 @@
  */
 
 const CONFIG = {
-  PROVIDER: 'groq', // <-- ДОБАВИЛИ ЭТУ СТРОЧКУ, ЧТОБЫ УБРАТЬ ОШИБКУ
-  API_URL: 'https://api.groq.com/openai/v1/chat/completions',
-  API_KEY: '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',
-  MODEL: 'llama-3.3-70b-versatile',
+  AI_PROVIDER: 'groq',
+  GROQ_API_KEY: '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',
+  GROQ_MODEL: 'llama-3.3-70b-versatile',
   MAX_HP: 5,
 
   LEVELS: [
